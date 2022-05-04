@@ -34,21 +34,20 @@ const displayNotification = notificationTitle => {
 
 const updateSubscriptionOnYourServer = subscription => {
     console.log('Write your ajax code here to save the user subscription in your DB', subscription);
-    console.log(JSON.stringify(subscription))
-        // write your ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
+    // write your own ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
 };
 
 const subscribeUser = async() => {
     const swRegistration = await navigator.serviceWorker.getRegistration();
-    const applicationServerPublicKey = window.vapidPublicKey; // paste your webpush certificate public key
-    const applicationServerKey = urlB64ToUint8Array("BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4");
+    const applicationServerPublicKey = 'BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4'; // paste your webpush certificate public key
+    const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
     swRegistration.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey
         })
         .then((subscription) => {
             console.log('User is subscribed newly:', subscription);
-            updateSubscriptionOnYourServer(subscription);
+            updateSubscriptionOnServer(subscription);
         })
         .catch((err) => {
             if (Notification.permission === 'denied') {
@@ -58,6 +57,25 @@ const subscribeUser = async() => {
             }
         });
 };
+
+
+const checkSubscription = async() => {
+    const swRegistration = await navigator.serviceWorker.getRegistration();
+    swRegistration.pushManager.getSubscription()
+        .then(subscription => {
+            if (!!subscription) {
+                console.log('User IS Already subscribed.');
+                updateSubscriptionOnYourServer(subscription);
+            } else {
+                console.log('User is NOT subscribed. Subscribe user newly');
+                subscribeUser();
+            }
+        });
+};
+
+checkSubscription();
+
+
 const urlB64ToUint8Array = (base64String) => {
     const padding = '='.repeat((4 - base64String.length % 4) % 4)
     const base64 = (base64String + padding)
