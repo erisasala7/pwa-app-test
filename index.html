@@ -13,6 +13,24 @@
     <link rel="manifest" href="https://erisasala7.github.io/pwa-app-test/manifest.json">
     <script src="https://erisasala7.github.io/pwa-app-test/register-service-worker.js"></script>
 </head>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
 
 <body>
 
@@ -37,16 +55,6 @@
                     <tbody id='errorTable'></tbody>
         </table>
     </div>
-    <p>This page must be accessed using HTTPS or via localhost.</p>
-    <button id="trigger-push">Notify me!</button>
-    <button disabled class="js-push-btn">Enable Push Messaging</button><br><br>
-    <section class="js-sub-endpoint" style="display:none;width:80%">
-        <h3>Subscription Object:</h3>
-        <code class="js-subscription-json"></code><br><br><br>
-        <h3>Endpoint URL:</h3>
-        <code class="js-endpoint-url"></code>
-    </section>
-
 </body>
 
 </html>

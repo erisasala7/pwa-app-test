@@ -1,7 +1,45 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
-        displayNotification('Notifications')
+        var today = new Date();
+        var date;
+        var dateTime;
+        var table = "";
+        var data = [];
+        var arrays = [];
+        var retrievedArray;
+        var arrayreceived;
+
+        var myArray = [
+            "FM1",
+            "FM2",
+            "FM3",
+        ];
+
+        var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
+        displayErrors(randomItem);
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
+        dateTime = date + ' ' + time;
+        jsonData = [{
+            username: date,
+            club: time,
+            category: randomItem
+        }];
+        arrays.push(data);
+        console.log("Data array: ");
+        console.log(arrays);
+        localStorage.setItem('arrays', JSON.stringify(jsonData));
+        retrievedArray = localStorage.getItem('arrays');
+        console.log(retrievedArray);
+        arrayreceived = JSON.parse(retrievedArray);
+        for (var i = 0; i < jsonData.length; i++) {
+            var tr = document.createElement('tr');
+            tr.appendChild(document.createElement(jsonData[i].username));
+            tr.appendChild(document.createElement(jsonData[i].club));
+            tr.appendChild(document.createElement(jsonData[i].category));
+            byId('errorTable').appendChild(tr);
+        }
     });
 }
 
@@ -29,6 +67,25 @@ const displayNotification = notificationTitle => {
             };
 
             reg.showNotification(notificationTitle, options);
+        });
+    }
+};
+
+const displayErrors = notificationError => {
+    console.log('display notification')
+    if (Notification.permission == 'granted') {
+        navigator.serviceWorker.getRegistration().then(reg => {
+            console.log(reg)
+            const options = {
+                body: notificationError,
+                vibrate: [100, 50, 100],
+                data: {
+                    dateOfArrival: Date.now(),
+                    primaryKey: 0
+                }
+            };
+
+            reg.showNotification("Fehlermldung", options);
         });
     }
 };
