@@ -35,13 +35,27 @@ if ('serviceWorker' in navigator) {
         retrievedArray = localStorage.getItem('arrays');
         console.log(retrievedArray);
         arrayreceived = JSON.parse(retrievedArray);
-        for (var i = 0; i < jsonData.length; i++) {
-            var tr = document.createElement('tr');
-            tr.appendChild(document.createElement(jsonData[i].username));
-            tr.appendChild(document.createElement(jsonData[i].club));
-            tr.appendChild(document.createElement(jsonData[i].category));
-            document.getElementById('errorTable').appendChild(tr);
+        var myTableDiv = document.getElementById("myDynamicTable");
+
+        var table = document.createElement('TABLE');
+        table.border = '1';
+
+        var tableBody = document.createElement('TBODY');
+        table.appendChild(tableBody);
+
+        for (var i = 0; i < 3; i++) {
+            var tr = document.createElement('TR');
+            tableBody.appendChild(tr);
+
+            for (var j = 0; j < jsonData.length; j++) {
+                var td = document.createElement('TD');
+                td.width = '75';
+                td.appendChild(document.createTextNode("Cell " + i + "," + j));
+                tr.appendChild(td);
+            }
         }
+        myTableDiv.appendChild(table);
+
     });
 
 
