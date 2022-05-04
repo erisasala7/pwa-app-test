@@ -228,7 +228,7 @@ const updateSubscriptionOnYourServer = subscription => {
             const subscribeOptions = {
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(
-                    window.vapidPublicKey,
+                    window.publicVK,
                 ),
             };
 
@@ -248,7 +248,7 @@ const updateSubscriptionOnYourServer = subscription => {
 
 const subscribeUser = async() => {
     const swRegistration = await navigator.serviceWorker.getRegistration();
-    const applicationServerPublicKey = window.vapidPublicKey; // paste your webpush certificate public key
+    const applicationServerPublicKey = window.publicVK; // paste your webpush certificate public key
     const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
     swRegistration.pushManager.subscribe({
             userVisibleOnly: true,
