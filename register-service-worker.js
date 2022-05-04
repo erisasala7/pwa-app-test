@@ -255,7 +255,7 @@ const subscribeUser = async() => {
         .then((subscription) => {
             console.log('User is subscribed newly:', subscription);
             alert(subscription);
-            updateSubscriptionOnYourServer(subscription);
+            updateSubscriptionOnServer(subscription);
         })
         .catch((err) => {
             if (Notification.permission === 'denied') {
@@ -281,23 +281,3 @@ function urlB64ToUint8Array(base64String) {
     }
     return outputArray;
 };
-
-const checkSubscription = async() => {
-    const swRegistration = await navigator.serviceWorker.getRegistration();
-    if (!swRegistration) {
-        console.log('No service worker detected')
-        return;
-    }
-    swRegistration.pushManager.getSubscription()
-        .then(subscription => {
-            if (!!subscription) {
-                console.log('User IS Already subscribed.');
-                updateSubscriptionOnYourServer(subscription);
-            } else {
-                console.log('User is NOT subscribed. Subscribe user newly');
-                subscribeUser();
-            }
-        });
-};
-
-checkSubscription();
