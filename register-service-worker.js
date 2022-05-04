@@ -17,7 +17,7 @@ async function send() {
         .then(function(registration) {
             const subscribeOptions = {
                 userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(
+                applicationServerKey: urlB64ToUint8Array(
                     window.publicVK,
                 ),
             };
