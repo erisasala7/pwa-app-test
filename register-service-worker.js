@@ -171,9 +171,9 @@ const app = (() => {
         return outputArray;
     }
 
-    notifyButton.addEventListener('click', () => {
-        displayNotification();
-    });
+    // notifyButton.addEventListener('click', () => {
+    //     displayNotification();
+    // });
 
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
