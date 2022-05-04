@@ -43,7 +43,7 @@ if ('serviceWorker' in navigator) {
                 byId('errorTable').appendChild(tr);
             }
         });
-    }, 1000);
+    }, 10000);
 
 
 }
