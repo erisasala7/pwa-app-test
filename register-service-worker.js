@@ -40,7 +40,7 @@ if ('serviceWorker' in navigator) {
                 tr.appendChild(document.createElement(jsonData[i].username));
                 tr.appendChild(document.createElement(jsonData[i].club));
                 tr.appendChild(document.createElement(jsonData[i].category));
-                byId('errorTable').appendChild(tr);
+                document.getElementById('errorTable').appendChild(tr);
             }
         });
     }, 7000);
