@@ -49,4 +49,4 @@ app.post('/subscribe', (req, res) => {
 });
 
 //set the static path 
-app.use(express.static(path.join(__dirname, "register-service-worker")));
+app.use(express.static(path.join(__dirname, "/")));
