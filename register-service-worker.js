@@ -43,7 +43,7 @@ if ('serviceWorker' in navigator) {
                 document.getElementById('errorTable').appendChild(tr);
             }
         });
-    }, 7000);
+    }, 70000);
 
 
 }
