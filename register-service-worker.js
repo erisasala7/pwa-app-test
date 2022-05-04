@@ -1,6 +1,6 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register('https://erisasala7.github.io/pwa-demo/service-worker.js');
+        navigator.serviceWorker.register('service-worker.js');
     });
 }
 
