@@ -1,31 +1,31 @@
-const webPush = require('web-push');
+import { generateVAPIDKeys, setVapidDetails, setGCMAPIKey, sendNotification } from 'web-push';
 //body-parser
-const bodyParser = require('body-parser');
+import { json } from 'body-parser';
 
 //path
-const path = require('path');
+import { join } from 'path';
 
 //using express 
 const app = express();
 
 //using bodyparser
-app.use(bodyParser.json());
+app.use(json());
 
-const VK = webPush.generateVAPIDKeys();
+const VK = generateVAPIDKeys();
 const publicVK = VK.publicKey;
 const privateVK = VK.privateKey;
-const vapid_Details = webPush.setVapidDetails('mailto:erisasala7@gmail.com', publicVK, privateVK);
+const vapid_Details = setVapidDetails('mailto:erisasala7@gmail.com', publicVK, privateVK);
 const payload = 'Here is a payload!';
 
 const options = {
-    gcmAPIKey: webPush.setGCMAPIKey(),
+    gcmAPIKey: setGCMAPIKey(),
     TTL: 60,
     vapidDetails: vapid_Details
 
 
 };
 
-webPush.sendNotification(
+sendNotification(
     pushSubscription,
     payload,
     options
@@ -47,4 +47,4 @@ app.post('/subscribe', (req, res) => {
 });
 
 //set the static path 
-app.use(express.static(path.join(__dirname, "/")));
+app.use(express.static(join(__dirname, "/")));
