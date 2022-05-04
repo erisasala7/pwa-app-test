@@ -38,7 +38,7 @@ const updateSubscriptionOnYourServer = subscription => {
     console.log(JSON.stringify(subscription))
         // write your ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
 };
-const vapidPKey = generateVAPIDKeys();
+
 const subscribeUser = async() => {
     const swRegistration = await navigator.serviceWorker.getRegistration();
     const applicationServerPublicKey = window.vapidPublicKey; // paste your webpush certificate public key
