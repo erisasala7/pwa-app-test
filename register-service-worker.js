@@ -1,4 +1,4 @@
-const publicVapidKey = 'BOynOrGhgkj8Bfk4hsFENAQYbnqqLSigUUkCNaBsAmNuH6U9EWywR1JIdxBVQOPDbIuTaj0tVAQbczNLkC5zftw';
+const publicVapidKey = 'BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4';
 
 if ('serviceWorker' in navigator) {
     console.log('Registering service worker');
@@ -18,7 +18,7 @@ async function run() {
         userVisibleOnly: true,
         // The `urlBase64ToUint8Array()` function is the same as in
         // https://www.npmjs.com/package/web-push#using-vapid-key-for-applicationserverkey
-        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+        applicationServerKey: urlB64ToUint8Array(publicVapidKey)
     });
     console.log('Registered push');
 
@@ -121,17 +121,17 @@ self.addEventListener('push', ev => {
 // checkSubscription();
 
 
-// const urlB64ToUint8Array = (base64String) => {
-//     const padding = '='.repeat((4 - base64String.length % 4) % 4)
-//     const base64 = (base64String + padding)
-//         .replace(/\-/g, '+')
-//         .replace(/_/g, '/')
+const urlB64ToUint8Array = (base64String) => {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4)
+    const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/')
 
-//     const rawData = window.atob(base64);
-//     const outputArray = new Uint8Array(rawData.length);
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
 
-//     for (let i = 0; i < rawData.length; ++i) {
-//         outputArray[i] = rawData.charCodeAt(i);
-//     }
-//     return outputArray;
-// };
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+};
