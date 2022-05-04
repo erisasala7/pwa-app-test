@@ -17,7 +17,7 @@ app.post('/subscribe', (req, res) => {
     const payload = JSON.stringify({ title: 'test' });
 
     console.log(subscription);
-
+    console.log("subscription");
     webpush.sendNotification(subscription, payload).catch(error => {
         console.error(error.stack);
     });

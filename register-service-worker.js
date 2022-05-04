@@ -9,7 +9,7 @@ if ('serviceWorker' in navigator) {
 async function run() {
     console.log('Registering service worker');
     const registration = await navigator.serviceWorker.
-    register('https://erisasala7.github.io/pwa-app-test/service-worker.js', { scope: 'https://erisasala7.github.io/pwa-app-test/' });
+    register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
     console.log('Registered service worker');
 
     console.log('Registering push');
