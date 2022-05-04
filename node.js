@@ -11,9 +11,8 @@ const app = express();
 //using bodyparser
 app.use(json());
 
-const VK = generateVAPIDKeys();
-const publicVK = VK.publicKey;
-const privateVK = VK.privateKey;
+const publicVK = process.env.PUBLIC_VAPID_KEY;
+const privateVK = process.env.PRIVATE_VAPID_KEY;
 const vapid_Details = setVapidDetails('mailto:erisasala7@gmail.com', publicVK, privateVK);
 const payload = 'Here is a payload!';
 
@@ -47,4 +46,7 @@ app.post('/subscribe', (req, res) => {
 });
 
 //set the static path 
-app.use(express.static(join(__dirname, "/")));
+app.set('port', process.env.PORT || 5000);
+const server = app.listen(app.get('port'), () => {
+    console.log(`Express running → PORT ${server.address().port}`);
+});

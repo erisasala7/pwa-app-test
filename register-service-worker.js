@@ -1,41 +1,46 @@
-if ('serviceWorker' in navigator) {
-    send().catch(err => console.error(err));
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
 }
-async function send() {
-    //register service worker
-    // const register = await navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
 
-    // //register push
-    // const subscription = await register.pushManager.subscribe({
-    //     userVisibleOnly: true,
+const publicVapidKey = 'BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4';
 
-    //     //public vapid key
-    //     applicationServerKey: urlB64ToUint8Array(window.publicVK)
-    // });
-    alert(window.publicVK);
-    navigator.serviceWorker
-        .register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
-        .then(function(registration) {
-            const subscribeOptions = {
-                userVisibleOnly: true,
-                applicationServerKey: urlB64ToUint8Array(
-                    window.publicVK,
-                ),
-            };
+const triggerPush = document.querySelector('.trigger-push');
 
-            return registration.pushManager.subscribe(subscribeOptions);
-        })
-        .then(function(pushSubscription) {
-            console.log(
-                'Received PushSubscription: ',
-                JSON.stringify(pushSubscription),
-            );
-            return pushSubscription;
+async function triggerPushNotification() {
+    if ('serviceWorker' in navigator) {
+        const register = await navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
+
+        const subscription = await register.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
         });
+
+        await fetch('/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    } else {
+        console.error('Service workers are not supported in this browser');
+    }
 }
 
-
-
+triggerPush.addEventListener('click', () => {
+    triggerPushNotification().catch(error => console.error(error));
+});
 
 
 
