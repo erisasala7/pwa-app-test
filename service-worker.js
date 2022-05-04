@@ -1,11 +1,9 @@
-// TODO 2.6 - Handle the notificationclose event
 self.addEventListener('notificationclose', event => {
     const notification = event.notification;
     const primaryKey = notification.data.primaryKey;
 
     console.log('Closed notification: ' + primaryKey);
 });
-// TODO 2.7 - Handle the notificationclick event
 self.addEventListener('notificationclick', event => {
     const notification = event.notification;
     const primaryKey = notification.data.primaryKey;
@@ -18,16 +16,9 @@ self.addEventListener('notificationclick', event => {
         notification.close();
     }
 
-    // TODO 5.3 - close all notifications when one is clicked
 
 });
-// self.addEventListener('notificationclick', event => {
 
-//     // TODO 2.8 - change the code to open a custom page
-
-//     clients.openWindow('https://google.com');
-// });
-// TODO 3.1 - add push event listener
 self.addEventListener('push', event => {
     let body;
 
@@ -60,24 +51,24 @@ self.addEventListener('push', event => {
         self.registration.showNotification('Push Notification', options)
     );
 });
-// self.addEventListener('install', (event) => { // event when service worker install
-//     console.log('install', event);
-//     self.skipWaiting();
-// });
+self.addEventListener('install', (event) => { // event when service worker install
+    console.log('install', event);
+    self.skipWaiting();
+});
 
-// self.addEventListener('activate', (event) => { // event when service worker activated
-//     console.log('activate', event);
-//     return self.clients.claim();
-// });
+self.addEventListener('activate', (event) => { // event when service worker activated
+    console.log('activate', event);
+    return self.clients.claim();
+});
 
-// self.addEventListener('fetch', function(event) { // HTTP request interceptor
-//     // event.respondWith(fetch(event.request)); // send all http request without any cache logic
-//     event.respondWith(
-//             caches.match(event.request).then(function(response) {
-//                 return response || fetch(event.request);
-//             })
-//         ) // cache new request. if already in cache serves with cache.
-// });
+self.addEventListener('fetch', function(event) { // HTTP request interceptor
+    // event.respondWith(fetch(event.request)); // send all http request without any cache logic
+    event.respondWith(
+            caches.match(event.request).then(function(response) {
+                return response || fetch(event.request);
+            })
+        ) // cache new request. if already in cache serves with cache.
+});
 
 // //push messages are received in below event
 // self.addEventListener('push', (event) => {
