@@ -41,7 +41,7 @@ const updateSubscriptionOnYourServer = subscription => {
 const vapidPKey = generateVAPIDKeys();
 const subscribeUser = async() => {
     const swRegistration = await navigator.serviceWorker.getRegistration();
-    const applicationServerPublicKey = vapidPublicKey; // paste your webpush certificate public key
+    const applicationServerPublicKey = window.vapidPublicKey; // paste your webpush certificate public key
     const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
     swRegistration.pushManager.subscribe({
             userVisibleOnly: true,
