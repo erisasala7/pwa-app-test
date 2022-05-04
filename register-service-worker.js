@@ -12,7 +12,7 @@ async function send() {
     //     //public vapid key
     //     applicationServerKey: urlB64ToUint8Array(window.publicVK)
     // });
-    alert(window.publicVK);
+    alert(publicVK);
     navigator.serviceWorker
         .register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
         .then(function(registration) {
