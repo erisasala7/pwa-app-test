@@ -179,7 +179,7 @@ const app = (() => {
         window.addEventListener('load', () => {
             console.log('Service Worker and Push is supported');
 
-            navigator.serviceWorker.register('sw.js')
+            navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
                 .then(swReg => {
                     console.log('Service Worker is registered', swReg);
 
