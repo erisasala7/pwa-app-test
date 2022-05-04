@@ -199,17 +199,6 @@ const app = (() => {
 
 })();
 
-// if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', function() {
-//         navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
-//     });
-// }
-
-Notification.requestPermission(status => {
-    console.log('Status:' + status)
-    displayNotification('Notification Enabled');
-});
-
 
 
 const displayNotification = notificationTitle => {
@@ -295,22 +284,22 @@ const subscribeUser = async() => {
 //     return outputArray;
 // };
 
-// const checkSubscription = async() => {
-//     const swRegistration = await navigator.serviceWorker.getRegistration();
-//     if (!swRegistration) {
-//         console.log('No service worker detected')
-//         return;
-//     }
-//     swRegistration.pushManager.getSubscription()
-//         .then(subscription => {
-//             if (!!subscription) {
-//                 console.log('User IS Already subscribed.');
-//                 updateSubscriptionOnYourServer(subscription);
-//             } else {
-//                 console.log('User is NOT subscribed. Subscribe user newly');
-//                 subscribeUser();
-//             }
-//         });
-// };
+const checkSubscription = async() => {
+    const swRegistration = await navigator.serviceWorker.getRegistration();
+    if (!swRegistration) {
+        console.log('No service worker detected')
+        return;
+    }
+    swRegistration.pushManager.getSubscription()
+        .then(subscription => {
+            if (!!subscription) {
+                console.log('User IS Already subscribed.');
+                updateSubscriptionOnYourServer(subscription);
+            } else {
+                console.log('User is NOT subscribed. Subscribe user newly');
+                subscribeUser();
+            }
+        });
+};
 
-// checkSubscription();
+checkSubscription();
