@@ -37,7 +37,7 @@ const updateSubscriptionOnYourServer = subscription => {
     console.log(JSON.stringify(subscription))
         // write your ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
     return navigator.serviceWorker
-        .register('/service-worker.js')
+        .register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
         .then(function(registration) {
             const subscribeOptions = {
                 userVisibleOnly: true,
