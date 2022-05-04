@@ -186,7 +186,7 @@ const app = (() => {
                     swRegistration = swReg;
 
                     // TODO 3.3a - call the initializeUI() function
-                    initializeUI();
+                    // initializeUI();
                 })
                 .catch(err => {
                     console.error('Service Worker Error', err);
