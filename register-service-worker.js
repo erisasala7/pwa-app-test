@@ -212,74 +212,74 @@ const app = (() => {
 
 
 
-// const displayNotification = notificationTitle => {
-//     console.log('display notification')
-//     if (Notification.permission == 'granted') {
-//         navigator.serviceWorker.getRegistration().then(reg => {
-//             console.log(reg)
-//             const options = {
-//                 body: 'Thanks for allowing push notification !',
+const displayNotification = notificationTitle => {
+    console.log('display notification')
+    if (Notification.permission == 'granted') {
+        navigator.serviceWorker.getRegistration().then(reg => {
+            console.log(reg)
+            const options = {
+                body: 'Thanks for allowing push notification !',
 
-//                 vibrate: [100, 50, 100],
-//                 data: {
-//                     dateOfArrival: Date.now(),
-//                     primaryKey: 0
-//                 }
-//             };
+                vibrate: [100, 50, 100],
+                data: {
+                    dateOfArrival: Date.now(),
+                    primaryKey: 0
+                }
+            };
 
-//             reg.showNotification(notificationTitle, options);
-//         });
-//     }
-// };
+            reg.showNotification(notificationTitle, options);
+        });
+    }
+};
 
 
-// const updateSubscriptionOnYourServer = subscription => {
-//     console.log('Write your ajax code here to save the user subscription in your DB', subscription);
-//     console.log(JSON.stringify(subscription))
-//         // write your ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
-//     return navigator.serviceWorker
-//         .register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
-//         .then(function(registration) {
-//             const subscribeOptions = {
-//                 userVisibleOnly: true,
-//                 applicationServerKey: urlBase64ToUint8Array(
-//                     window.vapidPublicKey,
-//                 ),
-//             };
+const updateSubscriptionOnYourServer = subscription => {
+    console.log('Write your ajax code here to save the user subscription in your DB', subscription);
+    console.log(JSON.stringify(subscription))
+        // write your ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
+    return navigator.serviceWorker
+        .register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
+        .then(function(registration) {
+            const subscribeOptions = {
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(
+                    window.vapidPublicKey,
+                ),
+            };
 
-//             return registration.pushManager.subscribe(subscribeOptions);
-//         })
-//         .then(function(pushSubscription) {
-//             console.log(
-//                 'Received PushSubscription: ',
-//                 JSON.stringify(pushSubscription),
-//             );
-//             return pushSubscription;
-//         });
+            return registration.pushManager.subscribe(subscribeOptions);
+        })
+        .then(function(pushSubscription) {
+            console.log(
+                'Received PushSubscription: ',
+                JSON.stringify(pushSubscription),
+            );
+            return pushSubscription;
+        });
 
-// };
+};
 
-// const subscribeUser = async() => {
-//     const swRegistration = await navigator.serviceWorker.getRegistration();
-//     const applicationServerPublicKey = window.vapidPublicKey; // paste your webpush certificate public key
-//     const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
-//     swRegistration.pushManager.subscribe({
-//             userVisibleOnly: true,
-//             applicationServerKey
-//         })
-//         .then((subscription) => {
-//             console.log('User is subscribed newly:', subscription);
-//             alert(subscription);
-//             updateSubscriptionOnYourServer(subscription);
-//         })
-//         .catch((err) => {
-//             if (Notification.permission === 'denied') {
-//                 console.warn('Permission for notifications was denied')
-//             } else {
-//                 console.error('Failed to subscribe the user: ', err)
-//             }
-//         });
-// };
+const subscribeUser = async() => {
+    const swRegistration = await navigator.serviceWorker.getRegistration();
+    const applicationServerPublicKey = window.vapidPublicKey; // paste your webpush certificate public key
+    const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+    swRegistration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey
+        })
+        .then((subscription) => {
+            console.log('User is subscribed newly:', subscription);
+            alert(subscription);
+            updateSubscriptionOnYourServer(subscription);
+        })
+        .catch((err) => {
+            if (Notification.permission === 'denied') {
+                console.warn('Permission for notifications was denied')
+            } else {
+                console.error('Failed to subscribe the user: ', err)
+            }
+        });
+};
 // const urlB64ToUint8Array = (base64String) => {
 //     const padding = '='.repeat((4 - base64String.length % 4) % 4)
 //     const base64 = (base64String + padding)
