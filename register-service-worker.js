@@ -10,7 +10,7 @@ async function send() {
         userVisibleOnly: true,
 
         //public vapid key
-        applicationServerKey: urlB64ToUint8Array(publicVK)
+        applicationServerKey: urlB64ToUint8Array(window.publicVK)
     });
 
     //Send push notification
