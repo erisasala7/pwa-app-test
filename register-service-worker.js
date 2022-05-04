@@ -3,24 +3,34 @@ if ('serviceWorker' in navigator) {
 }
 async function send() {
     //register service worker
-    const register = await navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
+    // const register = await navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
 
-    //register push
-    const subscription = await register.pushManager.subscribe({
-        userVisibleOnly: true,
+    // //register push
+    // const subscription = await register.pushManager.subscribe({
+    //     userVisibleOnly: true,
 
-        //public vapid key
-        applicationServerKey: urlB64ToUint8Array(window.publicVK)
-    });
+    //     //public vapid key
+    //     applicationServerKey: urlB64ToUint8Array(window.publicVK)
+    // });
+    navigator.serviceWorker
+        .register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
+        .then(function(registration) {
+            const subscribeOptions = {
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(
+                    window.publicVK,
+                ),
+            };
 
-    //Send push notification
-    await fetch("/subscribe", {
-        method: "POST",
-        body: JSON.stringify(subscription),
-        headers: {
-            "content-type": "application/json"
-        }
-    });
+            return registration.pushManager.subscribe(subscribeOptions);
+        })
+        .then(function(pushSubscription) {
+            console.log(
+                'Received PushSubscription: ',
+                JSON.stringify(pushSubscription),
+            );
+            return pushSubscription;
+        });
 }
 
 
