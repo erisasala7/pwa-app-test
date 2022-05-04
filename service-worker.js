@@ -1,25 +1,87 @@
-self.addEventListener('install', (event) => { // event when service worker install
-    console.log('install', event);
-    self.skipWaiting();
-});
+// TODO 2.6 - Handle the notificationclose event
+self.addEventListener('notificationclose', event => {
+    const notification = event.notification;
+    const primaryKey = notification.data.primaryKey;
 
-self.addEventListener('activate', (event) => { // event when service worker activated
-    console.log('activate', event);
-    return self.clients.claim();
+    console.log('Closed notification: ' + primaryKey);
 });
+// TODO 2.7 - Handle the notificationclick event
+self.addEventListener('notificationclick', event => {
+    const notification = event.notification;
+    const primaryKey = notification.data.primaryKey;
+    const action = event.action;
 
-self.addEventListener('fetch', function(event) { // HTTP request interceptor
-    // event.respondWith(fetch(event.request)); // send all http request without any cache logic
-    event.respondWith(
-            caches.match(event.request).then(function(response) {
-                return response || fetch(event.request);
-            })
-        ) // cache new request. if already in cache serves with cache.
-});
+    if (action === 'close') {
+        notification.close();
+    } else {
+        clients.openWindow('samples/page' + primaryKey + '.html');
+        notification.close();
+    }
 
-//push messages are received in below event
-self.addEventListener('push', (event) => {
-    const json = JSON.parse(event.data.text())
-    console.log('Push Data', event.data.text())
-    self.registration.showNotification(json.header, json.options)
+    // TODO 5.3 - close all notifications when one is clicked
+
 });
+// self.addEventListener('notificationclick', event => {
+
+//     // TODO 2.8 - change the code to open a custom page
+
+//     clients.openWindow('https://google.com');
+// });
+// TODO 3.1 - add push event listener
+self.addEventListener('push', event => {
+    let body;
+
+    if (event.data) {
+        body = event.data.text();
+    } else {
+        body = 'Default body';
+    }
+
+    const options = {
+        body: body,
+        icon: 'images/notification-flat.png',
+        vibrate: [100, 50, 100],
+        data: {
+            dateOfArrival: Date.now(),
+            primaryKey: 1
+        },
+        actions: [{
+                action: 'explore',
+                title: 'Go to the site',
+            },
+            {
+                action: 'close',
+                title: 'Close the notification',
+            },
+        ]
+    };
+
+    event.waitUntil(
+        self.registration.showNotification('Push Notification', options)
+    );
+});
+// self.addEventListener('install', (event) => { // event when service worker install
+//     console.log('install', event);
+//     self.skipWaiting();
+// });
+
+// self.addEventListener('activate', (event) => { // event when service worker activated
+//     console.log('activate', event);
+//     return self.clients.claim();
+// });
+
+// self.addEventListener('fetch', function(event) { // HTTP request interceptor
+//     // event.respondWith(fetch(event.request)); // send all http request without any cache logic
+//     event.respondWith(
+//             caches.match(event.request).then(function(response) {
+//                 return response || fetch(event.request);
+//             })
+//         ) // cache new request. if already in cache serves with cache.
+// });
+
+// //push messages are received in below event
+// self.addEventListener('push', (event) => {
+//     const json = JSON.parse(event.data.text())
+//     console.log('Push Data', event.data.text())
+//     self.registration.showNotification(json.header, json.options)
+// });
