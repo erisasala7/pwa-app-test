@@ -2,7 +2,7 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
 
-        this.setTimeout(function() {
+        this.setInterval(function() {
             var today = new Date();
             var date;
             var dateTime;
