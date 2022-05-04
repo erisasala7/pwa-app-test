@@ -1,4 +1,4 @@
-const pushSubscription = { "endpoint": "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABh2…E0mTFsHtUqaye8UCoLBq8sHCgo2IC7UaafhjGmVCG_SCdhZ9Z88uGj-uwMcg", "keys": { "auth": "qX6AMD5JWbu41cFWE3Lk8w", "p256dh": "BLxHw0IMtBMzOHnXgPxxMgSYXxwzJPxpgR8KmAbMMe1-eOudcIcUTVw0QvrC5gWOhZs-yzDa4yKooqSnM3rnx7Y" } };
+const pushSubscription = { "endpoint": "https://fcm.googleapis.com/fcm/send/fS7h7qz21ZQ:AP…RcKBLKEcWjeHcYRxADg2k-GB6jaG560MuNmawEe_n1N8jnV55", "keys": { "auth": "qX6AMD5JWbu41cFWE3Lk8w", "p256dh": "BLxHw0IMtBMzOHnXgPxxMgSYXxwzJPxpgR8KmAbMMe1-eOudcIcUTVw0QvrC5gWOhZs-yzDa4yKooqSnM3rnx7Y" } };
 //your web certificates public-key
 const vapidPublicKey = 'BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4';
 //your web certificates private-key
