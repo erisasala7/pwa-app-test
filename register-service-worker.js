@@ -205,10 +205,10 @@ const app = (() => {
 //     });
 // }
 
-// Notification.requestPermission(status => {
-//     console.log('Status:' + status)
-//     displayNotification('Notification Enabled');
-// });
+Notification.requestPermission(status => {
+    console.log('Status:' + status)
+    displayNotification('Notification Enabled');
+});
 
 
 
