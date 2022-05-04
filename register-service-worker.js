@@ -15,7 +15,8 @@ function urlBase64ToUint8Array(base64String) {
 
 const publicVapidKey = 'BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4';
 
-const triggerPush = document.querySelector('.trigger-push');
+const triggerPush = document.getElementById('trigger-push');
+
 
 async function triggerPushNotification() {
     if ('serviceWorker' in navigator) {
