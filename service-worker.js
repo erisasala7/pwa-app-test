@@ -18,39 +18,43 @@ self.addEventListener('notificationclick', event => {
 
 
 });
-
-self.addEventListener('push', event => {
-    let body;
-
-    if (event.data) {
-        body = event.data.text();
-    } else {
-        body = 'Default body';
-    }
-
-    const options = {
-        body: body,
-        icon: 'images/notification-flat.png',
-        vibrate: [100, 50, 100],
-        data: {
-            dateOfArrival: Date.now(),
-            primaryKey: 1
-        },
-        actions: [{
-                action: 'explore',
-                title: 'Go to the site',
-            },
-            {
-                action: 'close',
-                title: 'Close the notification',
-            },
-        ]
-    };
-
-    event.waitUntil(
-        self.registration.showNotification('Push Notification', options)
-    );
+self.addEventListener('push', (event) => {
+    const json = JSON.parse(event.data.text())
+    console.log('Push Data', event.data.text())
+    self.registration.showNotification(json.header, json.options)
 });
+// self.addEventListener('push', event => {
+//     let body;
+
+//     if (event.data) {
+//         body = event.data.text();
+//     } else {
+//         body = 'Default body';
+//     }
+
+//     const options = {
+//         body: body,
+//         icon: 'images/notification-flat.png',
+//         vibrate: [100, 50, 100],
+//         data: {
+//             dateOfArrival: Date.now(),
+//             primaryKey: 1
+//         },
+//         actions: [{
+//                 action: 'explore',
+//                 title: 'Go to the site',
+//             },
+//             {
+//                 action: 'close',
+//                 title: 'Close the notification',
+//             },
+//         ]
+//     };
+
+//     event.waitUntil(
+//         self.registration.showNotification('Push Notification', options)
+//     );
+// });
 self.addEventListener('install', (event) => { // event when service worker install
     console.log('install', event);
     self.skipWaiting();
