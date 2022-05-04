@@ -156,24 +156,20 @@ const app = (() => {
         pushButton.disabled = false;
     }
 
-    function urlB64ToUint8Array(base64String) {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding)
-            .replace(/\-/g, '+')
-            .replace(/_/g, '/');
+    // function urlB64ToUint8Array(base64String) {
+    //     const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    //     const base64 = (base64String + padding)
+    //         .replace(/\-/g, '+')
+    //         .replace(/_/g, '/');
 
-        const rawData = window.atob(base64);
-        const outputArray = new Uint8Array(rawData.length);
+    //     const rawData = window.atob(base64);
+    //     const outputArray = new Uint8Array(rawData.length);
 
-        for (let i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-        return outputArray;
-    }
-
-    // notifyButton.addEventListener('click', () => {
-    //     displayNotification();
-    // });
+    //     for (let i = 0; i < rawData.length; ++i) {
+    //         outputArray[i] = rawData.charCodeAt(i);
+    //     }
+    //     return outputArray;
+    // }
 
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -207,7 +203,7 @@ const displayNotification = notificationTitle => {
         navigator.serviceWorker.getRegistration().then(reg => {
             console.log(reg)
             const options = {
-                body: 'Thanks for allowing push notification !',
+                body: 'Notifications right are granted!!!',
 
                 vibrate: [100, 50, 100],
                 data: {
@@ -269,20 +265,20 @@ const subscribeUser = async() => {
             }
         });
 };
-// const urlB64ToUint8Array = (base64String) => {
-//     const padding = '='.repeat((4 - base64String.length % 4) % 4)
-//     const base64 = (base64String + padding)
-//         .replace(/\-/g, '+')
-//         .replace(/_/g, '/')
+const urlB64ToUint8Array = (base64String) => {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4)
+    const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/')
 
-//     const rawData = window.atob(base64);
-//     const outputArray = new Uint8Array(rawData.length);
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
 
-//     for (let i = 0; i < rawData.length; ++i) {
-//         outputArray[i] = rawData.charCodeAt(i);
-//     }
-//     return outputArray;
-// };
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+};
 
 const checkSubscription = async() => {
     const swRegistration = await navigator.serviceWorker.getRegistration();
