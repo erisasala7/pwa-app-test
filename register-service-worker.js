@@ -4,6 +4,7 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+
 Notification.requestPermission(status => {
     console.log('Status:' + status)
     displayNotification('Notification Enabled');
@@ -31,31 +32,10 @@ const displayNotification = notificationTitle => {
     }
 };
 
-
 const updateSubscriptionOnYourServer = subscription => {
     console.log('Write your ajax code here to save the user subscription in your DB', subscription);
     console.log(JSON.stringify(subscription))
         // write your ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
-    return navigator.serviceWorker
-        .register('https://erisasala7.github.io/pwa-app-test/service-worker.js')
-        .then(function(registration) {
-            const subscribeOptions = {
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(
-                    window.vapidPublicKey,
-                ),
-            };
-
-            return registration.pushManager.subscribe(subscribeOptions);
-        })
-        .then(function(pushSubscription) {
-            console.log(
-                'Received PushSubscription: ',
-                JSON.stringify(pushSubscription),
-            );
-            return pushSubscription;
-        });
-
 };
 
 const subscribeUser = async() => {
@@ -68,7 +48,6 @@ const subscribeUser = async() => {
         })
         .then((subscription) => {
             console.log('User is subscribed newly:', subscription);
-            alert(subscription);
             updateSubscriptionOnYourServer(subscription);
         })
         .catch((err) => {
