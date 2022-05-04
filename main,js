@@ -1,10 +1,11 @@
 const webPush = require('web-push');
 // pushSubscription is nothing but subscription that you sent from your front-end to save it in DB
 const pushSubscription = { "endpoint": "https://updates.push.services.mozilla.com/wpush/v2/gAAAAABh2…E0mTFsHtUqaye8UCoLBq8sHCgo2IC7UaafhjGmVCG_SCdhZ9Z88uGj-uwMcg", "keys": { "auth": "qX6AMD5JWbu41cFWE3Lk8w", "p256dh": "BLxHw0IMtBMzOHnXgPxxMgSYXxwzJPxpgR8KmAbMMe1-eOudcIcUTVw0QvrC5gWOhZs-yzDa4yKooqSnM3rnx7Y" } };
+const vapidPKey = webPush.generateVAPIDKeys();
 //your web certificates public-key
-const vapidPublicKey = 'BOcTIipY07N4Y63Y-9r7NMoJHofmCzn3Pu9g-LMsgIMGH4HVr42_LW9ia0lMr68TsTLKS3UcdkE3IcC52hJDYsY';
+const vapidPublicKey = vapidPKey.publicKey;
 //your web certificates private-key
-const vapidPrivateKey = 'web-certificate private key';
+const vapidPrivateKey = vapidPKey.privateKey;
 
 var payload = JSON.stringify({
     "options": {
