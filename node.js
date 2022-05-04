@@ -11,8 +11,6 @@ const app = express();
 //using bodyparser
 app.use(bodyParser.json());
 
-const pushSubscription = YOUR_SUBSCRIPTION_OBJECT;
-
 const VK = webPush.generateVAPIDKeys();
 const publicVK = VK.publicKey;
 const privateVK = VK.privateKey;
@@ -22,7 +20,7 @@ const payload = 'Here is a payload!';
 const options = {
     gcmAPIKey: webPush.setGCMAPIKey(),
     TTL: 60,
-
+    vapidDetails: vapid_Details
 
 
 };
