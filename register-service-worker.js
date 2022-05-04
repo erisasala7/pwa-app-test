@@ -1,4 +1,4 @@
-const webPush = require('web-push');
+import { generateVAPIDKeys } from 'web-push';
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('https://erisasala7.github.io/pwa-demo/service-worker.js');
@@ -39,7 +39,7 @@ const updateSubscriptionOnYourServer = subscription => {
     console.log(JSON.stringify(subscription))
         // write your ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
 };
-const vapidPKey = webPush.generateVAPIDKeys();
+const vapidPKey = generateVAPIDKeys();
 const subscribeUser = async() => {
     const swRegistration = await navigator.serviceWorker.getRegistration();
     const applicationServerPublicKey = vapidPKey.publicKey; // paste your webpush certificate public key
