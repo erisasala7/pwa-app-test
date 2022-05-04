@@ -47,7 +47,7 @@ const subscribeUser = async() => {
         })
         .then((subscription) => {
             console.log('User is subscribed newly:', subscription);
-            updateSubscriptionOnServer(subscription);
+            updateSubscriptionOnYourServer(subscription);
         })
         .catch((err) => {
             if (Notification.permission === 'denied') {
