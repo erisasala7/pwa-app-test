@@ -8,12 +8,33 @@ webpush.setVapidDetails(
 );
 
 module.exports = webpush;
-// var express = require('express');
-// var cors = require('cors')
-// var bodyParser = require('body-parser');
-// const socket = require("socket.io");
-// var app = express();
-// app.use(express.static('assets'));
+require("dotenv").config();
+
+const express = require("express");
+const morgan = require('morgan');
+const path = require("path");
+
+const app = express();
+
+// Middlewares
+app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Routes
+app.use(require('index'));
+
+// Static Content
+app.use(express.static(path.join(__dirname, '/')))
+
+app.listen(3000);
+console.log('Server Listening...')
+    // var express = require('express');
+    // var cors = require('cors')
+    // var bodyParser = require('body-parser');
+    // const socket = require("socket.io");
+    // var app = express();
+    // app.use(express.static('assets'));
 
 
 // app.use(bodyParser.json()); // support json encoded bodies
