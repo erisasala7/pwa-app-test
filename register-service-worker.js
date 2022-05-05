@@ -8,81 +8,62 @@ if ('serviceWorker' in navigator) {
 
 
 Notification.requestPermission(status => {
-
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
-        var myTable = document.querySelector('#table');
-        var headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
-        var table = document.createElement('table');
-        var headerRow = document.createElement('tr');
-        headers.forEach(headerText => {
-            let header = document.createElement('th');
-            let textNode = document.createTextNode(headerText);
-            header.appendChild(textNode);
-            headerRow.appendChild(header);
-        });
-        table.appendChild(headerRow);
-        this.setInterval(() => {
-
-            var today = new Date();
-            var date;
-            var dateTime;
-
-            var myArray = [
-                "FM1",
-                "FM2",
-                "FM3",
-            ];
-
-            var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
-            displayErrors(randomItem);
-            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-            time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
-            dateTime = date + ' ' + time;
-            jsonData = [{
-                username: date,
-                club: time,
-                category: randomItem
-            }];
-
-            jsonData.forEach(emp => {
-                let row = document.createElement('tr');
-                Object.values(emp).forEach(text => {
-                    let cell = document.createElement('td');
-                    let textNode = document.createTextNode(text);
-                    cell.appendChild(textNode);
-                    row.appendChild(cell);
-                })
-                table.appendChild(row);
+        subscribeUser();
+        this.setTimeout(() => {
+            let myTable = document.querySelector('#table');
+            let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
+            let table = document.createElement('table');
+            let headerRow = document.createElement('tr');
+            headers.forEach(headerText => {
+                let header = document.createElement('th');
+                let textNode = document.createTextNode(headerText);
+                header.appendChild(textNode);
+                headerRow.appendChild(header);
             });
+            table.appendChild(headerRow);
+            this.setInterval(() => {
+                var today = new Date();
+                var date;
+                var dateTime;
 
-        }, 10000);
-        myTable.appendChild(table);
+                var myArray = [
+                    "FM1",
+                    "FM2",
+                    "FM3",
+                ];
 
+                var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
+                displayErrors(randomItem);
+                date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
+                dateTime = date + ' ' + time;
+                jsonData = [{
+                    username: date,
+                    club: time,
+                    category: randomItem
+                }];
+
+                jsonData.forEach(emp => {
+                    let row = document.createElement('tr');
+                    Object.values(emp).forEach(text => {
+                        let cell = document.createElement('td');
+                        let textNode = document.createTextNode(text);
+                        cell.appendChild(textNode);
+                        row.appendChild(cell);
+                    })
+                    table.appendChild(row);
+                });
+                myTable.appendChild(table);
+            }, 10000);
+
+        }, 1);
     }
 });
 
 
-
-// const displayNotification = notificationTitle => {
-//     if (Notification.permission == 'granted') {
-//         navigator.serviceWorker.getRegistration().then(reg => {
-//             console.log(reg)
-//             const options = {
-//                 body: 'Thanks for allowing push notification !',
-
-//                 vibrate: [100, 50, 100],
-//                 data: {
-//                     dateOfArrival: Date.now(),
-//                     primaryKey: 0
-//                 }
-//             };
-
-//             reg.showNotification(notificationTitle, options);
-//         });
-//     }
-// };
 
 const displayErrors = notificationError => {
     if (Notification.permission == 'granted') {
@@ -102,10 +83,7 @@ const displayErrors = notificationError => {
     }
 };
 
-const updateSubscriptionOnYourServer = subscription => {
-    console.log('Write your ajax code here to save the user subscription in your DB', subscription);
-    // write your own ajax request method using fetch, jquery, axios to save the subscription in your server for later use.
-};
+
 
 const subscribeUser = async() => {
     const swRegistration = await navigator.serviceWorker.getRegistration();
@@ -117,7 +95,6 @@ const subscribeUser = async() => {
         })
         .then((subscription) => {
             console.log('User is subscribed newly:', subscription);
-            updateSubscriptionOnYourServer(subscription);
         })
         .catch((err) => {
             if (Notification.permission === 'denied') {
