@@ -56,7 +56,7 @@ Notification.requestPermission(status => {
                         })
                         table.appendChild(row);
                     });
-                }, 1000);
+                }, 1700);
 
                 myTable.appendChild(table);
             }, 10000);
