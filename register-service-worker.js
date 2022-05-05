@@ -112,7 +112,6 @@ const checkSubscription = async() => {
         .then(subscription => {
             if (!!subscription) {
                 console.log('User IS Already subscribed.');
-                updateSubscriptionOnYourServer(subscription);
             } else {
                 console.log('User is NOT subscribed. Subscribe user newly');
                 subscribeUser();
