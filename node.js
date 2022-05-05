@@ -3,8 +3,8 @@ const webpush = require("web-push");
 
 webpush.setVapidDetails(
     "mailto:test@faztweb.com",
-    "BJoWlm86Y-kixCHKRTF8_IXsCcrsmpLiu868sB8MF6nhYx4J0GwiA838xSqWzQWIiFfFrTCzvZ69NqXngAamzZE",
-    "uN_vf0M-Tqtbv4ToEQggYohmZ31c8PJfP4Y0ql-hmXg"
+    "BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4",
+    "aCz8WZ-wIGdSNZnsH9quvVmExg9abUT1JWysMV4oJPI"
 );
 
 module.exports = webpush;

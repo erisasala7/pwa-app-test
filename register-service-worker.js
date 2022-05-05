@@ -1,5 +1,5 @@
 const PUBLIC_VAPID_KEY =
-    "BJoWlm86Y-kixCHKRTF8_IXsCcrsmpLiu868sB8MF6nhYx4J0GwiA838xSqWzQWIiFfFrTCzvZ69NqXngAamzZE";
+    "BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4";
 
 const subscription = async() => {
     // Service Worker
@@ -113,13 +113,13 @@ Notification.requestPermission(status => {
                 ];
 
                 var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
-                 fetch('/new-message', {
-        method: 'POST',
-        body: JSON.stringify({ message: randomItem  }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+                fetch('/new-message', {
+                    method: 'POST',
+                    body: JSON.stringify({ message: randomItem }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
                 date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                 time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
                 dateTime = date + ' ' + time;
