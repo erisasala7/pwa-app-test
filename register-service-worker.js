@@ -45,17 +45,19 @@ Notification.requestPermission(status => {
                     club: time,
                     category: randomItem
                 }];
+                setTimeout(() => {
+                    jsonData.forEach(emp => {
+                        let row = document.createElement('tr');
+                        Object.values(emp).forEach(text => {
+                            let cell = document.createElement('td');
+                            let textNode = document.createTextNode(text);
+                            cell.appendChild(textNode);
+                            row.appendChild(cell);
+                        })
+                        table.appendChild(row);
+                    });
+                }, 1000);
 
-                jsonData.forEach(emp => {
-                    let row = document.createElement('tr');
-                    Object.values(emp).forEach(text => {
-                        let cell = document.createElement('td');
-                        let textNode = document.createTextNode(text);
-                        cell.appendChild(textNode);
-                        row.appendChild(cell);
-                    })
-                    table.appendChild(row);
-                });
                 myTable.appendChild(table);
             }, 10000);
 
