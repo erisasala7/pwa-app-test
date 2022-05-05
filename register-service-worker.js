@@ -59,7 +59,9 @@ if ('serviceWorker' in navigator) {
 
 Notification.requestPermission(status => {
     console.log('Status:' + status)
-    displayNotification('Notification Enabled');
+    if (status != 'granted') {
+        alert("Sie haben die Banachrichtigungen nicht zugelassen");
+    }
 });
 
 

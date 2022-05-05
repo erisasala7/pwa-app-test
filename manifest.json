@@ -1,12 +1,12 @@
 {
-    "name": "Geekflare",
-    "short_name": "Geekflare",
-    "description": "Geekflare produces high-quality technology & finance articles, makes tools, and APIs to help businesses and people grow.",
+    "name": "ace-Monitoring",
+    "short_name": "Monitoring",
+    "description": "Monitoring System für ace",
     "start_url": "/pwa-demo/",
 
     "background_color": "#EDF2F4",
     "display": "standalone",
-    "theme_color": "#ff4e00",
-    "scope": "/pwa-demo/"
+    "theme_color": "#0099cc",
+    "scope": "/pwa-app-test/"
 
 }
