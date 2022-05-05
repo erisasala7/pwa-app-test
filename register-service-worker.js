@@ -28,21 +28,28 @@ if ('serviceWorker' in navigator) {
             club: time,
             category: randomItem
         }];
-        arrays.push(data);
-        console.log("Data array: ");
-        console.log(arrays);
-        localStorage.setItem('arrays', JSON.stringify(jsonData));
-        retrievedArray = localStorage.getItem('arrays');
-        console.log(retrievedArray);
-        arrayreceived = JSON.parse(retrievedArray);
-        var table = document.getElementById('table');
-        for (var i = 1; i < jsonData.length; i++) {
-            var row = table.insertRow(-1);
-            for (var j = 0; j < jsonData.length; j++) {
-                var cell = row.insertCell(-1);
-                cell.innerHTML = jsonData[i][j];
-            }
-        }
+        let myTable = document.querySelector('#table');
+        let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
+        let table = document.createElement('table');
+        let headerRow = document.createElement('tr');
+        headers.forEach(headerText => {
+            let header = document.createElement('th');
+            let textNode = document.createTextNode(headerText);
+            header.appendChild(textNode);
+            headerRow.appendChild(header);
+        });
+        table.appendChild(headerRow);
+        jsonData.forEach(emp => {
+            let row = document.createElement('tr');
+            Object.values(emp).forEach(text => {
+                let cell = document.createElement('td');
+                let textNode = document.createTextNode(text);
+                cell.appendChild(textNode);
+                row.appendChild(cell);
+            })
+            table.appendChild(row);
+        });
+        myTable.appendChild(table);
     });
 
 
