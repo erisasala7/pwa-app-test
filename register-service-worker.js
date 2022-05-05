@@ -6,7 +6,6 @@ if ('serviceWorker' in navigator) {
         var today = new Date();
         var date;
         var dateTime;
-        var table = "";
         var data = [];
         var arrays = [];
         var retrievedArray;
