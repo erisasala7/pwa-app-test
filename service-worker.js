@@ -1,91 +1,54 @@
-console.log('Loaded service worker!');
+var cacheName = 'pwaBADemo';
+var filesToCache = [
+    './',
+    './img/icons/'
 
-self.addEventListener('push', ev => {
-    const data = ev.data.json();
-    console.log('Got push', data);
-    self.registration.showNotification(data.title, {
-        body: 'Hello, World!',
-        icon: 'http://mongoosejs.com/docs/images/mongoose5_62x30_transparent.png'
-    });
+];
+
+/* Start the service worker and cache files in filesToCache */
+self.addEventListener('install', function(e) {
+    e.waitUntil(
+        caches.open(cacheName).then(function(cache) {
+            return cache.addAll(filesToCache);
+        })
+    );
 });
 
-// self.addEventListener('notificationclose', event => {
-//     const notification = event.notification;
-//     const primaryKey = notification.data.primaryKey;
+/* Serve cached content when offline */
+self.addEventListener('fetch', function(e) {
+    e.respondWith(
+        caches.match(e.request).then(function(response) {
+            return response || fetch(e.request);
+        })
+    );
+});
+// Register event listener for the 'push' event.
+self.addEventListener('push', function(event) {
+    // Retrieve the textual payload from event.data (a PushMessageData object).
 
-//     console.log('Closed notification: ' + primaryKey);
-// });
-// self.addEventListener('notificationclick', event => {
-//     const notification = event.notification;
-//     const primaryKey = notification.data.primaryKey;
-//     const action = event.action;
+    const payload = event.data ? event.data.text() : 'no payload';
 
-//     if (action === 'close') {
-//         notification.close();
-//     } else {
-//         clients.openWindow('samples/page' + primaryKey + '.html');
-//         notification.close();
-//     }
+    // Keep the service worker alive until the notification is created.
+    event.waitUntil(
+        // Show a notification with title  and use the payload
+        // as the body.
+        self.registration.showNotification('Push API', {
+            body: payload,
+        })
+    );
+});
+self.addEventListener('notificationclick', event => {
+    // Schließen Sie das Benachrichtigungs-Popout
+    event.notification.close();
+    // Holen Sie sich alle Window Clients
+    event.waitUntil(clients.matchAll({ type: 'window' }).then(clientsArr => {
 
+        //Wenn bereits eine Fenster-Registerkarte mit der Ziel-URL existiert, wird diese fokussiert;
+        const hadWindowToFocus = clientsArr.some(windowClient => windowClient.url === event.notification.data.url ? windowClient.navigate(event.notification.data.url).then((windowClient.focus(), true)) : false);
 
-// });
-// self.addEventListener('push', (event) => {
-//     // const json = JSON.parse(event.data.text())
-//     // console.log('Push Data', event.data.text())
-//     // self.registration.showNotification(json.header, json.options)
-//     const data = event.data.json();
+        // Andernfalls öffnen Sie eine neue Registerkarte mit der entsprechenden URL und fokussieren sie.
+        if (!hadWindowToFocus) clients.openWindow(event.notification.data.url).then(windowClient => windowClient ? windowClient.focus() : null);
 
-//     self.registration.showNotification(data.title, {
-//         body: 'Yay it works!',
-//     });
-// });
-// // self.addEventListener('push', event => {
-// //     let body;
+    }));
 
-// //     if (event.data) {
-// //         body = event.data.text();
-// //     } else {
-// //         body = 'Default body';
-// //     }
-
-// //     const options = {
-// //         body: body,
-// //         icon: 'images/notification-flat.png',
-// //         vibrate: [100, 50, 100],
-// //         data: {
-// //             dateOfArrival: Date.now(),
-// //             primaryKey: 1
-// //         },
-// //         actions: [{
-// //                 action: 'explore',
-// //                 title: 'Go to the site',
-// //             },
-// //             {
-// //                 action: 'close',
-// //                 title: 'Close the notification',
-// //             },
-// //         ]
-// //     };
-
-// //     event.waitUntil(
-// //         self.registration.showNotification('Push Notification', options)
-// //     );
-// // });
-// self.addEventListener('install', (event) => { // event when service worker install
-//     console.log('install', event);
-//     self.skipWaiting();
-// });
-
-// self.addEventListener('activate', (event) => { // event when service worker activated
-//     console.log('activate', event);
-//     return self.clients.claim();
-// });
-
-// self.addEventListener('fetch', function(event) { // HTTP request interceptor
-//     // event.respondWith(fetch(event.request)); // send all http request without any cache logic
-//     event.respondWith(
-//             caches.match(event.request).then(function(response) {
-//                 return response || fetch(event.request);
-//             })
-//         ) // cache new request. if already in cache serves with cache.
-// });
+})
