@@ -74,10 +74,8 @@ const displayErrors = notificationError => {
             const options = {
                 body: notificationError,
                 vibrate: [100, 50, 100],
-                data: {
-                    dateOfArrival: Date.now(),
-                    primaryKey: 0
-                }
+                icon: "https://erisasala7.github.io/pwa-app-test/img/icons/ace_logo.png"
+
             };
 
             reg.showNotification("Fehlermldung", options);
