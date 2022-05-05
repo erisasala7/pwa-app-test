@@ -12,24 +12,27 @@
     <!-- PWA -->
     <link rel="manifest" href="https://erisasala7.github.io/pwa-app-test/manifest.json">
     <script src="https://erisasala7.github.io/pwa-app-test/register-service-worker.js"></script>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
 </head>
 <style>
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-    
-    td,
-    th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-    
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
+
 </style>
 
 <body>
@@ -44,7 +47,13 @@
 
     <div class="container">
         <h3>Monitoring System</h3>
-
+        <table id="table">
+            <tr>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Fehlermeldung</th>
+            </tr>
+        </table>
     </div>
 </body>
 
