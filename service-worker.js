@@ -1,7 +1,7 @@
 var cacheName = 'pwaBADemo';
 var filesToCache = [
-    './',
-    './img/icons/'
+    'https://erisasala7.github.io/pwa-app-test/',
+    'https://erisasala7.github.io/pwa-app-test/img/icons/'
 
 ];
 
