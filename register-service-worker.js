@@ -2,53 +2,54 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
 
+        this.setTimeout(() => {
+            this.setInterval(() => {
+                var today = new Date();
+                var date;
+                var dateTime;
 
-        var today = new Date();
-        var date;
-        var dateTime;
-        var data = [];
-        var arrays = [];
-        var retrievedArray;
-        var arrayreceived;
+                var myArray = [
+                    "FM1",
+                    "FM2",
+                    "FM3",
+                ];
 
-        var myArray = [
-            "FM1",
-            "FM2",
-            "FM3",
-        ];
+                var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
+                displayErrors(randomItem);
+                date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
+                dateTime = date + ' ' + time;
+                jsonData = [{
+                    username: date,
+                    club: time,
+                    category: randomItem
+                }];
+                let myTable = document.querySelector('#table');
+                let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
+                let table = document.createElement('table');
+                let headerRow = document.createElement('tr');
+                headers.forEach(headerText => {
+                    let header = document.createElement('th');
+                    let textNode = document.createTextNode(headerText);
+                    header.appendChild(textNode);
+                    headerRow.appendChild(header);
+                });
+                table.appendChild(headerRow);
+                jsonData.forEach(emp => {
+                    let row = document.createElement('tr');
+                    Object.values(emp).forEach(text => {
+                        let cell = document.createElement('td');
+                        let textNode = document.createTextNode(text);
+                        cell.appendChild(textNode);
+                        row.appendChild(cell);
+                    })
+                    table.appendChild(row);
+                });
+                myTable.appendChild(table);
+            }, 10000);
 
-        var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
-        displayErrors(randomItem);
-        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
-        dateTime = date + ' ' + time;
-        jsonData = [{
-            username: date,
-            club: time,
-            category: randomItem
-        }];
-        let myTable = document.querySelector('#table');
-        let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
-        let table = document.createElement('table');
-        let headerRow = document.createElement('tr');
-        headers.forEach(headerText => {
-            let header = document.createElement('th');
-            let textNode = document.createTextNode(headerText);
-            header.appendChild(textNode);
-            headerRow.appendChild(header);
-        });
-        table.appendChild(headerRow);
-        jsonData.forEach(emp => {
-            let row = document.createElement('tr');
-            Object.values(emp).forEach(text => {
-                let cell = document.createElement('td');
-                let textNode = document.createTextNode(text);
-                cell.appendChild(textNode);
-                row.appendChild(cell);
-            })
-            table.appendChild(row);
-        });
-        myTable.appendChild(table);
+        }, 7000);
+
     });
 
 
