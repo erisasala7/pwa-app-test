@@ -1,3 +1,6 @@
+
+
+
 var cacheName = 'pwaBADemo';
 var filesToCache = [
     'https://erisasala7.github.io/pwa-app-test/',
@@ -24,20 +27,31 @@ self.addEventListener('fetch', function(e) {
     );
 });
 // Register event listener for the 'push' event.
-self.addEventListener('push', function(event) {
-    // Retrieve the textual payload from event.data (a PushMessageData object).
+console.log('Service Worker Works');
 
-    const payload = event.data ? event.data.text() : 'no payload';
-
-    // Keep the service worker alive until the notification is created.
-    event.waitUntil(
-        // Show a notification with title  and use the payload
-        // as the body.
-        self.registration.showNotification('Push API', {
-            body: payload,
-        })
-    );
+self.addEventListener('push', e => {
+    const data = e.data.json();
+    console.log(data)
+    console.log('Notification Received');
+    self.registration.showNotification(data.title, {
+        body: data.message,
+        icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Archlinux-icon-crystal-64.svg/1024px-Archlinux-icon-crystal-64.svg.png'
+    });
 });
+// self.addEventListener('push', function(event) {
+//     // Retrieve the textual payload from event.data (a PushMessageData object).
+
+//     const payload = event.data ? event.data.text() : 'no payload';
+
+//     // Keep the service worker alive until the notification is created.
+//     event.waitUntil(
+//         // Show a notification with title  and use the payload
+//         // as the body.
+//         self.registration.showNotification('Push API', {
+//             body: payload,
+//         })
+//     );
+// });
 self.addEventListener('notificationclick', event => {
     // Schließen Sie das Benachrichtigungs-Popout
     event.notification.close();

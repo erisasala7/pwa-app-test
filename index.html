@@ -34,8 +34,40 @@
 </style>
 
 <body>
+    <form action="#">
+        <input type="text" id="name">
+        <input type="text" id="email">
+        <input type="text" id="subject">
+        <textarea id="message"></textarea>
 
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <input type="button" onclick="sendMessage()" value="Send Message">
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.js"></script>
+    <script>
+        var socket = io("https://erisasala7.github.io/pwa-app-test/");
+
+        function sendMessage() {
+            socket.emit("messageSent", {
+                "name": document.getElementById("name").value,
+                "email": document.getElementById("email").value,
+                "subject": document.getElementById("subject").value,
+                "message": document.getElementById("message").value
+            });
+            socket.on("messageSent", function(message) {
+                $.notify("New Message\n" + message.message + "\n\nFrom: " + message.name, {
+                    autoHide: false,
+                    className: "success"
+                });
+            });
+        }
+    </script>
+
+    <!-- <nav class="navbar navbar-expand-md bg-dark navbar-dark">
         <a class="navbar-brand" href="https://erisasala7.github.io/pwa-app-test/">
             <img class="logo" src="https://erisasala7.github.io/pwa-app-test/img/icons/ace_logo_klein.png"> &nbsp;&nbsp;&nbsp;&nbsp;Monitoring System</a>
 
@@ -44,7 +76,9 @@
 
     <div>
         <div id='table'></div>
-    </div>
+    </div> -->
+
+
 </body>
 
 </html>
