@@ -3,6 +3,17 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
 
         this.setTimeout(() => {
+            let myTable = document.querySelector('#table');
+            let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
+            let table = document.createElement('table');
+            let headerRow = document.createElement('tr');
+            headers.forEach(headerText => {
+                let header = document.createElement('th');
+                let textNode = document.createTextNode(headerText);
+                header.appendChild(textNode);
+                headerRow.appendChild(header);
+            });
+            table.appendChild(headerRow);
             this.setInterval(() => {
                 var today = new Date();
                 var date;
@@ -24,17 +35,7 @@ if ('serviceWorker' in navigator) {
                     club: time,
                     category: randomItem
                 }];
-                let myTable = document.querySelector('#table');
-                let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
-                let table = document.createElement('table');
-                let headerRow = document.createElement('tr');
-                headers.forEach(headerText => {
-                    let header = document.createElement('th');
-                    let textNode = document.createTextNode(headerText);
-                    header.appendChild(textNode);
-                    headerRow.appendChild(header);
-                });
-                table.appendChild(headerRow);
+
                 jsonData.forEach(emp => {
                     let row = document.createElement('tr');
                     Object.values(emp).forEach(text => {
