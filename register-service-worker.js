@@ -35,26 +35,15 @@ if ('serviceWorker' in navigator) {
         retrievedArray = localStorage.getItem('arrays');
         console.log(retrievedArray);
         arrayreceived = JSON.parse(retrievedArray);
-        var myTableDiv = document.getElementById("myDynamicTable");
-
-        var table = document.createElement('TABLE');
-        table.border = '1';
-
-        var tableBody = document.createElement('TBODY');
-        table.appendChild(tableBody);
-
-        for (var i = 0; i < 3; i++) {
-            var tr = document.createElement('TR');
-            tableBody.appendChild(tr);
-
-            for (var j = 0; j < jsonData.length; j++) {
-                var td = document.createElement('TD');
-                td.width = '75';
-                td.appendChild(document.createTextNode("Cell " + i + "," + j));
-                tr.appendChild(td);
-            }
+        var table = document.createElement('table');
+        var tr = document.createElement('tr');
+        for (var j = 0; j < jsonData.length; j++) {
+            var th = document.createElement('th'); //column
+            var text = document.createTextNode(jsonData[j]); //cell
+            th.appendChild(text);
+            tr.appendChild(th);
         }
-        myTableDiv.appendChild(table);
+        table.appendChild(tr);
 
     });
 
