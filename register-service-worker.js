@@ -35,13 +35,13 @@ if ('serviceWorker' in navigator) {
         retrievedArray = localStorage.getItem('arrays');
         console.log(retrievedArray);
         arrayreceived = JSON.parse(retrievedArray);
-        var table = document.createElement('table');
-        var tr = document.createElement('tr');
-        for (var j = 0; j < jsonData.length; j++) {
-            var th = document.createElement('th'); //column
-            var text = document.createTextNode(jsonData[j]); //cell
-            th.appendChild(text);
-            tr.appendChild(th);
+        var table = document.getElementById('table');
+        for (var i = 1; i < jsonData.length; i++) {
+            var row = table.insertRow(-1);
+            for (var j = 0; j < jsonData.length; j++) {
+                var cell = row.insertCell(-1);
+                cell.innerHTML = jsonData[i][j];
+            }
         }
         table.appendChild(tr);
 
