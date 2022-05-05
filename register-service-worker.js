@@ -1,7 +1,17 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
+    });
 
+
+}
+
+
+Notification.requestPermission(status => {
+    console.log('Status:' + status)
+    if (status != 'granted') {
+        alert("Sie haben die Banachrichtigungen nicht zugelassen");
+    } else if (status == "granted") {
         this.setTimeout(() => {
             let myTable = document.querySelector('#table');
             let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
@@ -50,44 +60,31 @@ if ('serviceWorker' in navigator) {
             }, 10000);
 
         }, 7000);
-
-    });
-
-
-}
-
-
-Notification.requestPermission(status => {
-    console.log('Status:' + status)
-    if (status != 'granted') {
-        alert("Sie haben die Banachrichtigungen nicht zugelassen");
     }
 });
 
 
 
-const displayNotification = notificationTitle => {
-    console.log('display notification')
-    if (Notification.permission == 'granted') {
-        navigator.serviceWorker.getRegistration().then(reg => {
-            console.log(reg)
-            const options = {
-                body: 'Thanks for allowing push notification !',
+// const displayNotification = notificationTitle => {
+//     if (Notification.permission == 'granted') {
+//         navigator.serviceWorker.getRegistration().then(reg => {
+//             console.log(reg)
+//             const options = {
+//                 body: 'Thanks for allowing push notification !',
 
-                vibrate: [100, 50, 100],
-                data: {
-                    dateOfArrival: Date.now(),
-                    primaryKey: 0
-                }
-            };
+//                 vibrate: [100, 50, 100],
+//                 data: {
+//                     dateOfArrival: Date.now(),
+//                     primaryKey: 0
+//                 }
+//             };
 
-            reg.showNotification(notificationTitle, options);
-        });
-    }
-};
+//             reg.showNotification(notificationTitle, options);
+//         });
+//     }
+// };
 
 const displayErrors = notificationError => {
-    console.log('display notification')
     if (Notification.permission == 'granted') {
         navigator.serviceWorker.getRegistration().then(reg => {
             console.log(reg)
