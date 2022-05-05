@@ -43,8 +43,6 @@ if ('serviceWorker' in navigator) {
                 cell.innerHTML = jsonData[i][j];
             }
         }
-        table.appendChild(tr);
-
     });
 
 
