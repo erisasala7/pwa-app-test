@@ -12,10 +12,10 @@ Notification.requestPermission(status => {
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
-        let myTable = document.querySelector('#table');
-        let headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
-        let table = document.createElement('table');
-        let headerRow = document.createElement('tr');
+        var myTable = document.querySelector('#table');
+        var headers = ['Datum', 'Uhrzeit', 'Fehlermeldung'];
+        var table = document.createElement('table');
+        var headerRow = document.createElement('tr');
         headers.forEach(headerText => {
             let header = document.createElement('th');
             let textNode = document.createTextNode(headerText);
@@ -56,9 +56,9 @@ Notification.requestPermission(status => {
                 })
                 table.appendChild(row);
             });
-            myTable.appendChild(table);
-        }, 10000);
 
+        }, 10000);
+        myTable.appendChild(table);
 
     }
 });
