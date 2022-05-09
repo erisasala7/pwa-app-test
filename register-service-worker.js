@@ -18,7 +18,7 @@ navigator.serviceWorker.ready
                 });
             });
     }).then(function(subscription) {
-        fetch('./register', {
+        fetch('/', {
             method: 'post',
             headers: {
                 'Content-type': 'application/json'
@@ -32,7 +32,7 @@ navigator.serviceWorker.ready
             const delay = document.getElementById('notification-delay').value;
             const ttl = document.getElementById('notification-ttl').value;
 
-            fetch('./sendNotification', {
+            fetch('/', {
                 method: 'post',
                 headers: {
                     'Content-type': 'application/json'
