@@ -73,13 +73,13 @@ Notification.requestPermission(status => {
                 ];
 
                 var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
-                fetch('/new-message', {
-                    method: 'POST',
-                    body: JSON.stringify({ message: randomItem }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+                //     fetch('/new-message', {
+                //         method: 'POST',
+                //         body: JSON.stringify({ message: randomItem }),
+                //         headers: {
+                //             'Content-Type': 'application/json'
+                //         }
+                // });
                 date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                 time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
                 dateTime = date + ' ' + time;
