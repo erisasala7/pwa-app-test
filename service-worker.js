@@ -46,10 +46,10 @@ self.addEventListener('notificationclick', event => {
     event.waitUntil(clients.matchAll({ type: 'window' }).then(clientsArr => {
 
         //Wenn bereits eine Fenster-Registerkarte mit der Ziel-URL existiert, wird diese fokussiert;
-        const hadWindowToFocus = clientsArr.some(windowClient => windowClient.url === event.notification.data.url ? windowClient.navigate(event.notification.data.url).then((windowClient.focus(), true)) : false);
+        const hadWindowToFocus = clientsArr.some(windowClient => windowClient.url === "https://erisasala7.github.io/pwa-app-test/index.html" ? windowClient.navigate("https://erisasala7.github.io/pwa-app-test/index.html").then((windowClient.focus(), true)) : false);
 
         // Andernfalls öffnen Sie eine neue Registerkarte mit der entsprechenden URL und fokussieren sie.
-        if (!hadWindowToFocus) clients.openWindow(event.notification.data.url).then(windowClient => windowClient ? windowClient.focus() : null);
+        if (!hadWindowToFocus) clients.openWindow("https://erisasala7.github.io/pwa-app-test/index.html").then(windowClient => windowClient ? windowClient.focus() : null);
 
     }));
 

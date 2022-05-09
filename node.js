@@ -16,7 +16,7 @@
         console.log("Example app listening at http://%s:%s", host, port)
     });
 
-    app.get('/', function(req, res) {
+    app.get('https://erisasala7.github.io/pwa-app-test', function(req, res) {
         res.sendFile(__dirname + "/" + 'index.html');
     });
     // app.get('/node_modules/*', function (req, res) {
