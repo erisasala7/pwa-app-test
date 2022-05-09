@@ -174,8 +174,6 @@
 //     }
 //     return outputArray;
 // };
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 MsgElem = document.getElementById('msg');
 TokenElem = document.getElementById('token');
 NotisElem = document.getElementById('notis');
