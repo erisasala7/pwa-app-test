@@ -1,58 +1,51 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyCOyxJJ-lfFCAhUbv_TMhbVDoMe_APv2rM",
-    authDomain: "pwapush-3ace0.firebaseapp.com",
-    projectId: "pwapush-3ace0",
-    storageBucket: "pwapush-3ace0.appspot.com",
-    messagingSenderId: "301841775656",
-    appId: "1:301841775656:web:09eb62b4afdbb71925091d",
-    measurementId: "G-4YJMC7PN17"
-};
-firebase.initializeApp(config);
+navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
 
-const messaging = firebase.messaging();
+navigator.serviceWorker.ready
+    .then(function(registration) {
+        return registration.pushManager.getSubscription()
+            .then(async function(subscription) {
 
-messaging
-    .requestPermission()
-    .then(() => {
-        message.innerHTML = "Notifications allowed";
-        return messaging.getToken();
-    })
-    .then(token => {
-        tokenString.innerHTML = "Token Is : " + token;
-        //subscribeTokenToTopic(token, "allUsers");
-    })
-    .catch(err => {
-        errorMessage.innerHTML = errorMessage.innerHTML + "; " + err;
-        console.log("Unable to get permission to notify", err);
-    });
+                if (subscription) {
+                    return subscription;
 
-messaging.onMessage(payload => {
-    console.log("Message received. ", payload);
-    const { title, ...options } = payload.notification;
-});
-
-function subscribeTokenToTopic(token, topic) {
-    fetch("https://iid.googleapis.com/iid/v1/" + token + "/rel/topics/" + topic, {
-            method: "POST",
-            headers: new Headers({
-                Authorization: "key=SERVICE KEY"
-            })
-        })
-        .then(response => {
-            if (response.status < 200 || response.status >= 400) {
-                throw "Error subscribing to  the following topic: " +
-                    response.status +
-                    " - " +
-                    response.text();
-            } else {
-                console.log('Successfully subscribed to "' + topic + '"');
-            }
-        })
-        .catch(error => {
-            console.error(error);
+                }
+                // const response = await fetch('./vapidPublicKey');
+                const vapidPublicKey = "BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4";
+                const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+                return registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: convertedVapidKey
+                });
+            });
+    }).then(function(subscription) {
+        fetch('./register', {
+            method: 'post',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                subscription: subscription
+            }),
         });
-}
-// const PUBLIC_VAPID_KEY =
+
+        document.getElementById('doIt').onclick = function() {
+            const delay = document.getElementById('notification-delay').value;
+            const ttl = document.getElementById('notification-ttl').value;
+
+            fetch('./sendNotification', {
+                method: 'post',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subscription: subscription,
+                    delay: delay,
+                    ttl: ttl,
+                }),
+            });
+        };
+
+    }); // const PUBLIC_VAPID_KEY =
 //     "BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4";
 
 // const subscription = async() => {
