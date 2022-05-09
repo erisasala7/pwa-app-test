@@ -1,0 +1,19 @@
+{
+    "name": "ace-Monitoring",
+    "short_name": "Monitoring",
+    "description": "Monitoring System für ace",
+    "start_url": "/pwa-app-test/",
+
+    "background_color": "#EDF2F4",
+    "display": "standalone",
+    "theme_color": "#0099cc",
+    "scope": "/pwa-app-test/",
+    "icons": [{
+        "src": "img/icons/ace_logo.png",
+        "sizes": "48x48",
+        "type": "image / png"
+    }],
+
+    "gcm_sender_id": "301841775656"
+
+}
