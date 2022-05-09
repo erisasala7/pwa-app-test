@@ -55,7 +55,7 @@
         <div id="err"></div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase-messaging.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
     <script>
@@ -63,6 +63,7 @@
         TokenElem = document.getElementById('token');
         NotisElem = document.getElementById('notis');
         ErrElem = document.getElementById('err');
+        console.log(firebase);
         // TODO: Replace firebaseConfig you get from Firebase Console
         const firebaseConfig = {
             apiKey: "AIzaSyCOyxJJ-lfFCAhUbv_TMhbVDoMe_APv2rM",
