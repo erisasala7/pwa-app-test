@@ -18,7 +18,7 @@ navigator.serviceWorker.ready
                 });
             });
     }).then(function(subscription) {
-        fetch('/', {
+        fetch('https://erisasala7.github.io/pwa-app-test/', {
             method: 'post',
             headers: {
                 'Content-type': 'application/json'
@@ -29,18 +29,14 @@ navigator.serviceWorker.ready
         });
 
         document.getElementById('doIt').onclick = function() {
-            const delay = document.getElementById('notification-delay').value;
-            const ttl = document.getElementById('notification-ttl').value;
-
-            fetch('/', {
+            fetch('https://erisasala7.github.io/pwa-app-test/', {
                 method: 'post',
                 headers: {
                     'Content-type': 'application/json'
                 },
                 body: JSON.stringify({
                     subscription: subscription,
-                    delay: delay,
-                    ttl: ttl,
+
                 }),
             });
         };
