@@ -1,128 +1,94 @@
-    var express = require('express');
-    var cors = require('cors')
-    var bodyParser = require('body-parser');
-    const socket = require("socket.io");
-    var app = express();
-    app.use(express.static('assets'));
+// Pull in dependencies
+const express = require('express');
+const webPush = require('web-push');
+const bodyParser = require('body-parser');
+const _ = require('lodash');
+import { AngularFireMessagingModule } from '@angular/fire';
+import { AngularFireMessaging } from '@angular/fire/messaging'
+// Server settings with ExpressJS
+const app = express();
+const port = process.env.PORT || 3000;
+const runningMessage = 'Server is running on port ' + port;
 
+// Set up custom dependencies
+// Constants just contains common messages so they're in one place
+const constants = require('./constants');
 
-    app.use(bodyParser.json()); // support json encoded bodies
-    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-    app.use(cors())
+// VAPID keys should only be generated once.
+// use `web-push generate-vapid-keys --json` to generate in terminal
+// then export them in your shell with the follow env key names
+let vapidKeys = {
+    publicKey: process.env.VAPID_PUBLIC_KEY,
+    privateKey: process.env.VAPID_PRIVATE_KEY
+};
 
-    var server = app.listen(8081, function() {
-        var host = server.address().address
-        var port = server.address().port
-        console.log("Example app listening at http://%s:%s", host, port)
-    });
+// Tell web push about our application server
+webPush.setVapidDetails('mailto:email@domain.com', vapidKeys.publicKey, vapidKeys.privateKey);
 
-    app.get('https://erisasala7.github.io/pwa-app-test', function(req, res) {
-        res.sendFile(__dirname + "/" + 'index.html');
-    });
-    // app.get('/node_modules/*', function (req, res) {
-    //   res.sendFile( __dirname +  "/node" + 'index.html' );
-    // });
+// Store subscribers in memory
+let subscriptions = [];
 
+// Set up CORS and allow any host for now to test things out
+// WARNING! Don't use `*` in production unless you intend to allow all hosts
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    return next();
+});
 
-    const io = socket(server);
-    io.on("connection", function(socket) {
-        console.log("Made socket connection");
+// Allow clients to subscribe to this application server for notifications
+app.post('/subscribe', (req, res) => {
+    const body = JSON.stringify(req.body);
+    let sendMessage;
+    if (_.includes(subscriptions, body)) {
+        sendMessage = constants.messages.SUBSCRIPTION_ALREADY_STORED;
+    } else {
+        subscriptions.push(body);
 
-        socket.on("disconnect", function() {
-            console.log("Made socket disconnected");
+        sendMessage = constants.messages.SUBSCRIPTION_STORED;
+    }
+    res.send(sendMessage);
+});
+
+// Allow host to trigger push notifications from the application server
+app.post('/push', (req, res, next) => {
+    const pushSubscription = req.body.pushSubscription;
+    const notificationMessage = req.body.notificationMessage;
+
+    if (!pushSubscription) {
+        res.status(400).send(constants.errors.ERROR_SUBSCRIPTION_REQUIRED);
+        return next(false);
+    }
+
+    if (subscriptions.length) {
+        subscriptions.map((subscription, index) => {
+            let jsonSub = JSON.parse(subscription);
+
+            // Use the web-push library to send the notification message to subscribers
+            webPush
+                .sendNotification(jsonSub, notificationMessage)
+                .then(success => handleSuccess(success, index))
+                .catch(error => handleError(error, index));
         });
+    } else {
+        res.send(constants.messages.NO_SUBSCRIBERS_MESSAGE);
+        return next(false);
+    }
 
-        socket.on("send-notification", function(data) {
-            io.emit("new-notification", data);
-        });
+    function handleSuccess(success, index) {
+        res.send(constants.messages.SINGLE_PUBLISH_SUCCESS_MESSAGE);
+        return next(false);
+    }
 
-    });
+    function handleError(error, index) {
+        res.status(500).send(constants.errors.ERROR_MULTIPLE_PUBLISH);
+        return next(false);
+    }
+});
 
-    // // const pushSubscription = { "endpoint": "https://fcm.googleapis.com/fcm/send/fS7h7qz21ZQ:AP…RcKBLKEcWjeHcYRxADg2k-GB6jaG560MuNmawEe_n1N8jnV55", "keys": { "auth": "qX6AMD5JWbu41cFWE3Lk8w", "p256dh": "BLxHw0IMtBMzOHnXgPxxMgSYXxwzJPxpgR8KmAbMMe1-eOudcIcUTVw0QvrC5gWOhZs-yzDa4yKooqSnM3rnx7Y" } };
-    // // //your web certificates public-key
-    // // const vapidPublicKey = 'BFF4a8X89ZTfWGhzPSncasOkOpyAJxKzWfVXzX-BT2R7-E8GJaCvGwEDnXXJYs0Lxo7pF_xaLDftZQhZUGmFaX4';
-    // // //your web certificates private-key
-    // // const vapidPrivateKey = 'aCz8WZ-wIGdSNZnsH9quvVmExg9abUT1JWysMV4oJPI';
-    // // import firebase from 'firebase';
-    // // export const initializeFirebase = () => {
-    // //     firebase.initializeApp({
-    // //         apiKey: "XXXXXXXXXXXXX",
-    // //         authDomain: "XXXXXXXXXXXXX",
-    // //         databaseURL: "XXXXXXXXXXXXX",
-    // //         projectId: "XXXXXXXXXXXXX",
-    // //         storageBucket: "XXXXXXXXXXXXX",
-    // //         messagingSenderId: "XXXXXXXXXXXXX",
-    // //         appId: "XXXXXXXXXXXXX"
-    // //     });
-    // // }
-    // // const app = express();
+app.get('/', (req, res) => {
+    res.send(runningMessage);
+});
 
-    // // app.use(require('body-parser').json());
-
-    // // // app.post('/subscribe', (req, res) => {
-    // // //     const subscription = req.body;
-    // // //     res.status(201).json({});
-    // // //     const payload = JSON.stringify({ title: 'test' });
-
-    // // //     console.log(subscription);
-
-    // // //     webpush.sendNotification(subscription, payload).catch(error => {
-    // // //         console.error(error.stack);
-    // // //     });
-    // // // });
-    // // app.post('/subscribe', (req, res) => {
-    // //     //get push subscription object from the request
-    // //     const subscription = req.body;
-
-    // //     //send status 201 for the request
-    // //     res.status(201).json({})
-
-    // //     //create paylod: specified the detals of the push notification
-    // //     const payload = JSON.stringify({ title: 'Section.io Push Notification' });
-
-    // //     //pass the object into sendNotification fucntion and catch any error
-    // //     webpush.sendNotification(subscription, payload).catch(err => console.error(err));
-    // // })
-    // // app.use(express.static(path.join(__dirname, "/")));
-    // // var payload = JSON.stringify({
-    // //     "options": {
-    // //         "body": "PWA push notification testing fom backend",
-    // //         "badge": "/assets/icon/icon-152x152.png",
-    // //         "icon": "/assets/icon/icon-152x152.png",
-    // //         "vibrate": [100, 50, 100],
-    // //         "data": {
-    // //             "id": "458",
-    // //         },
-    // //         "actions": [{
-    // //             "action": "view",
-    // //             "title": "View"
-    // //         }, {
-    // //             "action": "close",
-    // //             "title": "Close"
-    // //         }]
-    // //     },
-    // //     "header": "Notification from Geekflare-PWA Demo"
-    // // });
-
-    // // var options = {
-    // //     vapidDetails: {
-    // //         subject: 'mailto:your-actual-mail@gmail.com',
-    // //         publicKey: vapidPublicKey,
-    // //         privateKey: vapidPrivateKey
-    // //     },
-    // //     TTL: 60
-    // // };
-
-    // // webPush.sendNotification(
-    // //     pushSubscription,
-    // //     payload,
-    // //     options
-    // // ).then(data => {
-    // //     return res.json({ status: true, message: 'Notification sent' });
-    // // }).catch(err => {
-    // //     return res.json({ status: false, message: err });
-    // // });
-    // // const port = 3000;
-    // // app.listen(port, () => {
-    // //     console.log(`server started on ${port}`)
-    // // });
+app.listen(port, () => console.log(runningMessage));

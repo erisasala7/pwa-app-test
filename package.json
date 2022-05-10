@@ -1,11 +1,12 @@
 {
     "dependencies": {
+        "@angular/fire": "^7.3.0",
         "@trycourier/courier": "^3.12.0",
         "body-parser": "^1.20.0",
         "dotenv": "^16.0.0",
         "express": "^4.18.1",
         "fcm-node": "^1.6.1",
-        "firebase": "^9.7.0",
+        "firebase": "^9.8.1",
         "web-push": "^3.5.0"
     },
     "name": "pwa-app-test",

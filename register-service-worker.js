@@ -45,6 +45,8 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 Notification.requestPermission(status => {
+    var access_token = new URLSearchParams(url.search).get('access_token');
+    console(access_token);
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
