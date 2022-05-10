@@ -45,6 +45,8 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 Notification.requestPermission(status => {
+    var url = window.location;
+
     var access_token = new URLSearchParams(url.search).get('access_token');
     console(access_token);
     if (status != 'granted') {
