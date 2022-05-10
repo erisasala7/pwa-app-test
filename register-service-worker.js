@@ -48,7 +48,7 @@ Notification.requestPermission(status => {
     var url = window.location;
 
     var access_token = new URLSearchParams(url.search).get('access_token');
-    console(access_token);
+    console.log(access_token);
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
