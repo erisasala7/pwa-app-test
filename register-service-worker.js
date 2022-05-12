@@ -51,7 +51,7 @@ Notification.requestPermission(status => {
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
-        navigator.getToken()
+        this.getToken()
             .then((token) => {
                 this.alert(token)
                 alert(token);
