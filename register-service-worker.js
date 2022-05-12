@@ -46,7 +46,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 function getToken() {
-    console.log(localStorage.getItem('id_token'));
+    console.log(localStorage);
 }
 Notification.requestPermission(status => {
 
