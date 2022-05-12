@@ -45,17 +45,18 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 Notification.requestPermission(status => {
-    console.log(message);
-    navigator.getToken()
-        .then((token) => {
-            this.alert(token)
-            alert(token);
-        })
-        .catch((e) => console.log(e))
+
+
 
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
+        navigator.getToken()
+            .then((token) => {
+                this.alert(token)
+                alert(token);
+            })
+            .catch((e) => console.log(e));
         subscribeUser();
         this.setTimeout(() => {
             let myTable = document.querySelector('#table');
