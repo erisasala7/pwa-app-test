@@ -1,19 +1,21 @@
 const authentification = firebase.auth();
 const message = firebase.messaging();
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-            navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
-        }).then(() => message.getToken())
-        .then((token) => {
-            console.log(token)
-            alert(token);
-            tokenList.push({
-                token: token,
-                uid: authentification.currentUser.uid
-            });
-            console.log(tokenList)
-        })
-        .catch((e) => console.log(e));
+        console.log(message);
+        navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js').then(() => message.getToken())
+            .then((token) => {
+                this.alert(token)
+                alert(token);
+                tokenList.push({
+                    token: token,
+                    uid: authentification.currentUser.uid
+                });
+                console.log(tokenList)
+            })
+            .catch((e) => console.log(e));
+    })
 
 
 }
