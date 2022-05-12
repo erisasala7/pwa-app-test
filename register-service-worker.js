@@ -1,6 +1,3 @@
-const authentification = firebase.auth();
-const message = firebase.messaging();
-
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
 
@@ -49,15 +46,10 @@ function urlBase64ToUint8Array(base64String) {
 }
 Notification.requestPermission(status => {
     console.log(message);
-    message.getToken()
+    navigator.getToken()
         .then((token) => {
             this.alert(token)
             alert(token);
-            tokenList.push({
-                token: token,
-                uid: authentification.currentUser.uid
-            });
-            console.log(tokenList)
         })
         .catch((e) => console.log(e))
 
