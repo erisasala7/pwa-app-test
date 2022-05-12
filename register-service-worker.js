@@ -44,6 +44,10 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
 }
+
+function getToken() {
+    console.log(localStorage.getItem('id_token'));
+}
 Notification.requestPermission(status => {
 
 
@@ -51,12 +55,7 @@ Notification.requestPermission(status => {
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
-        this.getToken()
-            .then((token) => {
-                this.alert(token)
-                alert(token);
-            })
-            .catch((e) => console.log(e));
+        getToken();
         subscribeUser();
         this.setTimeout(() => {
             let myTable = document.querySelector('#table');
