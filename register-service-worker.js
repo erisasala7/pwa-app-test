@@ -3,18 +3,8 @@ const message = firebase.messaging();
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        console.log(message);
-        navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js').then(() => message.getToken())
-            .then((token) => {
-                this.alert(token)
-                alert(token);
-                tokenList.push({
-                    token: token,
-                    uid: authentification.currentUser.uid
-                });
-                console.log(tokenList)
-            })
-            .catch((e) => console.log(e));
+
+        navigator.serviceWorker.register('https://erisasala7.github.io/pwa-app-test/service-worker.js');
     })
 
 
@@ -58,10 +48,19 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 Notification.requestPermission(status => {
-    var url = window.location;
+    console.log(message);
+    message.getToken()
+        .then((token) => {
+            this.alert(token)
+            alert(token);
+            tokenList.push({
+                token: token,
+                uid: authentification.currentUser.uid
+            });
+            console.log(tokenList)
+        })
+        .catch((e) => console.log(e))
 
-    var access_token = new URLSearchParams(url.search).get('access_token');
-    console.log(access_token);
     if (status != 'granted') {
         alert("Sie haben die Banachrichtigungen nicht zugelassen");
     } else if (status == "granted") {
